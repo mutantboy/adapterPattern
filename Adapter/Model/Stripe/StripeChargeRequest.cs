@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Adapter.Model.Paypal
+namespace Adapter.Model.Stripe
 {
     public class StripeChargeRequest
     {

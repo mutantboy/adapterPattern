@@ -10,7 +10,7 @@ namespace Adapter.Model.Paypal
     {
         public async Task<PayPalPaymentResponse> MakePayment(PayPalPaymentRequest request)
         {
-            await Task.Delay(100);
+            await Task.Delay(2000);
             return new PayPalPaymentResponse
             {
                 PaymentId = Guid.NewGuid().ToString(),
@@ -21,7 +21,7 @@ namespace Adapter.Model.Paypal
 
         public async Task<PayPalRefundResponse> CreateRefund(PayPalRefundRequest request)
         {
-            await Task.Delay(100);
+            await Task.Delay(2000);
             return new PayPalRefundResponse
             {
                 RefundId = Guid.NewGuid().ToString(),
