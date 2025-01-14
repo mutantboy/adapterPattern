@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Memento.Model
 {
-    public class Document
+    
+    public partial class Document
     {
         private string content;
         private Dictionary<string, string> formatting;
         private Dictionary<string, string> metadata;
         private readonly string documentId;
-
         public Document(string id)
         {
             documentId = id;
@@ -36,10 +36,8 @@ namespace Memento.Model
             metadata[key] = value;
         }
 
-        // Create a memento with complete state
         public DocumentMemento CreateMemento(string description)
         {
-            // Create new dictionaries to ensure deep copy
             var formattingCopy = new Dictionary<string, string>(formatting);
             var metadataCopy = new Dictionary<string, string>(metadata);
 
@@ -51,8 +49,8 @@ namespace Memento.Model
         {
             // Clear and recreate collections instead of just clearing
             content = memento.GetContent();
-            formatting = memento.GetFormatting(); // Get new dictionary
-            metadata = memento.GetMetadata(); // Get new dictionary
+            formatting = memento.GetFormatting(); 
+            metadata = memento.GetMetadata(); 
         }
 
         public override string ToString()
@@ -71,4 +69,28 @@ namespace Memento.Model
                    $"Metadata: {metadataStr}";
         }
     }
+
+    // tag::document[]
+    //public class Document
+    //{
+    //    private string content;
+    //    private Dictionary<string, string> formatting;
+    //    private Dictionary<string, string> metadata;
+    //    private readonly string documentId;
+
+    //    public Document(string id);
+
+    //    public void UpdateContent(string newContent);
+
+    //    public void ApplyFormatting(string element, string style);
+
+    //    public void UpdateMetadata(string key, string value);
+
+    //    public DocumentMemento CreateMemento(string description);
+
+    //    public void RestoreFromMemento(DocumentMemento memento);
+
+    //    public override string ToString();
+    //}
+    // end::document[]
 }

@@ -1,0 +1,64 @@
+Autor: Philipp Khachik
+Version: 1.0
+Datum: {docdate}
+
+:sourcedir: ../Memento
+:stylesheet: my-asciidoctor.css
+
+== Memento Pattern
+
+https://refactoring.guru/design-patterns/memento[Memento Pattern] is a behavioral design pattern that allows saving and restoring the previous state of an object without revealing the details of its implementation.
+
+The Memento pattern delegates creating the state snapshots to the actual owner of that state, the originator object.
+
+== Project Memento Pattern
+
+This project demonstrates the usage of the Memento pattern for saving and restoring the state of a `Document` object, enabling undo/redo functionality.
+
+=== Problem
+
+Komplexe Zustandsverwaltung: Eine Textverarbeitungs-App benötigt die Fähigkeit, den Zustand von Dokumenten zu speichern und wiederherzustellen, um "Undo"- und "Redo"-Funktionen zu ermöglichen.
+
+=== Lösung: Memento Pattern
+
+Originator: Das `Document`-Objekt, das seinen Zustand selbst verwaltet.
+Memento: Ein Snapshot des `Document`-Zustands, z.B. `DocumentMemento`.
+Caretaker: Die `DocumentHistory`-Klasse, die die Mementos verwaltet.
+
+=== Code-Ausschnitte
+
+[source,cs]
+include::{sourcedir}/Model/Document.cs[tag=document]
+
+[source,cs,linenums]
+include::{sourcedir}/Model/DocumentMemento.cs[tag=DocumentMemento]
+
+[source,cs,linenums]
+include::{sourcedir}/Caretaker/DocumentHistory.cs[tag=DocumentHistory]
+
+=== Key Points
+
+Originator-Implementierung: Das `Document`-Objekt erstellt und restauriert seinen Zustand mithilfe von Mementos.
+Memento-Implementierung: `DocumentMemento` kapselt den Zustand des `Document`-Objekts.
+Caretaker-Verantwortung: `DocumentHistory` verwaltet die Mementos, um den Zustand des `Document`-Objekts zu speichern und wiederherzustellen.
+
+
+== Vorteile und Nachteile
+
+=== Vorteile
+
+Encapsulation: Der interne Zustand des Objekts bleibt geschützt.
+
+Flexibilität: Leichtes Hinzufügen von Undo/Redo-Funktionen.
+
+=== Nachteile
+
+Erhöhter Speicherbedarf: Viele Mementos können viel Speicher verbrauchen.
+
+Erhöhte Komplexität: Zusätzliche Klassen und Logik erforderlich.
+
+== Beziehungen zu anderen Mustern
+
+Command Pattern: Kombinierbar für umfassende Undo/Redo-Funktionalität.
+Iterator Pattern: Verwendbar für die Iteration über Zustandsänderungen.
+Prototype Pattern: Alternativ zur Vereinfachung des Zustandsspeichers in einigen Fällen.

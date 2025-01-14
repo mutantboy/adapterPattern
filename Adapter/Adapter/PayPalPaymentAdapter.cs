@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Adapter.Adapter
 {
+// tag::snippet-PayPalPaymentAdapter[]
     public class PayPalPaymentAdapter(PayPalGateway payPalGateway) : IPaymentProcessor
     {
         private readonly PayPalGateway _payPalGateway = payPalGateway;
@@ -47,6 +48,8 @@ namespace Adapter.Adapter
                 };
             }
         }
+// end::snippet-PayPalPaymentAdapter[]
+
 
         public async Task<RefundResult> ProcessRefund(RefundDetails refund)
         {
@@ -88,5 +91,4 @@ namespace Adapter.Adapter
             );
         }
     }
-
 }

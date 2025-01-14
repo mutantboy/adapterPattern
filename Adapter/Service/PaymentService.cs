@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Adapter.Service
 {
+    // tag::PaymentService[]
     public class PaymentService
     {
         private readonly IPaymentProcessor _paymentProcessor;
@@ -32,4 +33,5 @@ namespace Adapter.Service
             return await _paymentProcessor.ProcessPayment(paymentDetails);
         }
     }
+    // end::PaymentService[]
 }

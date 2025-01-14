@@ -1,0 +1,70 @@
+Autor: Philipp Khachik
+Version: 1.0
+Datum: {docdate}
+
+
+:sourcedir: .. 
+:stylesheet: my-asciidoctor.css
+
+== Adapter Pattern
+
+https://refactoring.guru/design-patterns/adapter[Adapter Pattern] is a structural design pattern that allows objects with incompatible interfaces to collaborate.
+
+The Adapter pattern suggests that you place the interface conversion into a separate class called adapter, instead of trying to integrate it into existing classes.
+
+== Project Adapter Pattern
+
+This project demonstrates the usage of the Adapter pattern to integrate different payment gateways (PayPal, Stripe) into a payment processing system.
+
+=== Problem
+
+Inkompatible Schnittstellen: Eine bestehende Zahlungs-App möchte verschiedene Zahlungsgateways (PayPal, Stripe) integrieren, aber die Schnittstellen passen nicht zusammen.
+
+=== Lösung: Adapter Pattern
+
+Adapter: Ein spezielles Objekt, das die Schnittstelle eines Objekts so umwandelt, dass ein anderes Objekt es verstehen kann.
+Wrapper: Der Adapter umhüllt ein Objekt, um die Komplexität der Umwandlung zu verbergen.
+
+=== Code-Ausschnitte
+
+[source,cs,linenums]
+include::{sourcedir}/Model/IPaymentProcessor.cs[tag=IPaymentProcessor]
+
+[source,cs,linenums]
+include::{sourcedir}/Adapter/PayPalPaymentAdapter.cs[tag=snippet-PayPalPaymentAdapter]
+
+
+
+=== Key Points
+
+IPaymentProcessor-Implementation: Die ursprünglichen Klassen (PayPalPaymentAdapter, StripePaymentAdapter) implementieren die IPaymentProcessor-Schnittstelle, um verschiedene Zahlungsanbieter einheitlich zu integrieren.
+
+Adapter-Implementierung: Der `PayPalPaymentAdapter` und `StripePaymentAdapter` fungieren als Adapter-Klassen, die die Schnittstellen der jeweiligen Zahlungsanbieter in das Format der `IPaymentProcessor`-Schnittstelle übersetzen.
+
+Methodenaufrufe: Der `PaymentService` verwendet die Adapter-Klassen, indem er deren `ProcessPayment`-Methode aufruft, was die Schnittstellenvereinheitlichung im Zahlungsprozess sicherstellt.
+
+
+=== Beispiel-Code
+
+[source,cs,linenums]
+include::{sourcedir}/Service/PaymentService.cs[tag=PaymentService]
+
+[source,cs,linenums]
+include::{sourcedir}/Program.cs[tag=snippet-AdapterUsage]
+
+== Vorteile und Nachteile
+
+=== Vorteile
+
+Einzelverantwortungsprinzip: Trennung von Schnittstellen-Umwandlung und Geschäftslogik.
+Offenes/Closed-Prinzip: Neue Adapter können ohne Änderung der Client-Code hinzugefügt werden.
+
+=== Nachteile
+
+Erhöhte Komplexität: Zusätzliche Schnittstellen und Klassen erforderlich.
+
+== Beziehungen zu anderen Mustern
+
+Bridge: Ähnliche Struktur, aber mit unterschiedlichem Ziel.
+Decorator: Ähnliche Struktur, aber mit Fokus auf Erweiterung der Schnittstelle.
+Facade: Definiert eine neue Schnittstelle für bestehende Objekte, während der Adapter eine bestehende Schnittstelle umwandelt.

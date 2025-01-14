@@ -71,4 +71,25 @@ namespace Memento.Caretaker
             return new List<IDocumentMemento>(history);
         }
     }
+
+    // tag::DocumentHistory[]
+    //public class DocumentHistory
+    //{
+    //    private readonly Stack<DocumentMemento> history;
+    //    private readonly Document document;
+    //    private readonly int maxHistorySize;
+
+    //    public DocumentHistory(Document document, int maxHistorySize = 10)
+        
+
+    //    public void SaveState(string description)
+       
+
+    //    public bool Undo()
+        
+
+    //    public List<IDocumentMemento> GetHistory()
+        
+    //}
+    // end::DocumentHistory[]
 }
