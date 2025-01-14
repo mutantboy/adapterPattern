@@ -23,19 +23,19 @@ namespace Memento.Caretaker
 
         public void SaveState(string description)
         {
-            // When max size reached, remove oldest (bottom of stack)
+            /// Wenn max size untere entfernen
             if (history.Count >= maxHistorySize)
             {
                 DocumentMemento[] tempArray = history.ToArray();
                 history.Clear();
-                // Skip the oldest state and keep the rest
+                /// ältesten state überspringen
                 for (int i = 0; i < tempArray.Length - 1; i++)
                 {
                     history.Push(tempArray[tempArray.Length - 2 - i]);
                 }
             }
 
-            // Add new state
+            /// neuen state hinzufügen
             history.Push(document.CreateMemento(description));
         }
 
@@ -44,17 +44,23 @@ namespace Memento.Caretaker
             if (history.Count == 0)
                 return false;
 
-            // Pop the current state
+            ///jetziger state weg
             history.Pop();
 
-            // If there are no more states, return to empty state
             if (history.Count == 0)
             {
-                document.RestoreFromMemento(document.CreateMemento("Empty state"));
+                /// komplett leeren dokument state erstellen
+                document.UpdateContent(string.Empty);
+                document.RestoreFromMemento(new DocumentMemento(
+                    string.Empty,
+                    new Dictionary<string, string>(),
+                    new Dictionary<string, string>(),
+                    "Initial empty state"
+                ));
                 return true;
             }
 
-            // Get the previous state (without removing it)
+            /// vorherigen state wiederherstellen
             var previousState = history.Peek();
             document.RestoreFromMemento(previousState);
             return true;
