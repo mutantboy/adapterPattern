@@ -21,19 +21,27 @@ namespace Memento.Model
         public DocumentMemento(string content, Dictionary<string, string> formatting,
             Dictionary<string, string> metadata, string description)
         {
-            this.content = content;
+            // Create deep copies of everything
+            this.content = string.Copy(content);
             this.formatting = new Dictionary<string, string>(formatting);
             this.metadata = new Dictionary<string, string>(metadata);
             this.savedAt = DateTime.Now;
             this.description = description;
         }
 
-        /// <summary>
-        /// Nur Originator kann ganzen State accessen
-        /// </summary>
-        /// <returns></returns>
         internal string GetContent() => content;
-        internal Dictionary<string, string> GetFormatting() => new Dictionary<string, string>(formatting);
-        internal Dictionary<string, string> GetMetadata() => new Dictionary<string, string>(metadata);
+
+        internal Dictionary<string, string> GetFormatting()
+        {
+            // Return a new copy to prevent modification
+            return new Dictionary<string, string>(formatting);
+        }
+
+        internal Dictionary<string, string> GetMetadata()
+        {
+            // Return a new copy to prevent modification
+            return new Dictionary<string, string>(metadata);
+        }
     }
 }
+

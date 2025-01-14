@@ -8,27 +8,34 @@ using System.Threading.Tasks;
 
 namespace Memento.Caretaker
 {
-    public class DocumentHistory(Document document, int maxHistorySize = 10)
+    public class DocumentHistory
     {
-        private readonly Stack<DocumentMemento> history = new Stack<DocumentMemento>();
-        private readonly Document document = document;
-        private readonly int maxHistorySize = maxHistorySize;
+        private readonly Stack<DocumentMemento> history;
+        private readonly Document document;
+        private readonly int maxHistorySize;
+
+        public DocumentHistory(Document document, int maxHistorySize = 10)
+        {
+            this.document = document;
+            this.maxHistorySize = maxHistorySize;
+            history = new Stack<DocumentMemento>();
+        }
 
         public void SaveState(string description)
         {
+            // When max size reached, remove oldest (bottom of stack)
             if (history.Count >= maxHistorySize)
             {
-                /// Wenn max größe erreicht --> ältestes memento entfernen
-                var tempStack = new Stack<DocumentMemento>();
-                while (history.Count > maxHistorySize - 1)
+                DocumentMemento[] tempArray = history.ToArray();
+                history.Clear();
+                // Skip the oldest state and keep the rest
+                for (int i = 0; i < tempArray.Length - 1; i++)
                 {
-                    history.Pop();
-                }
-                while (tempStack.Count > 0)
-                {
-                    history.Push(tempStack.Pop());
+                    history.Push(tempArray[tempArray.Length - 2 - i]);
                 }
             }
+
+            // Add new state
             history.Push(document.CreateMemento(description));
         }
 
@@ -37,8 +44,19 @@ namespace Memento.Caretaker
             if (history.Count == 0)
                 return false;
 
-            var memento = history.Pop();
-            document.RestoreFromMemento(memento);
+            // Pop the current state
+            history.Pop();
+
+            // If there are no more states, return to empty state
+            if (history.Count == 0)
+            {
+                document.RestoreFromMemento(document.CreateMemento("Empty state"));
+                return true;
+            }
+
+            // Get the previous state (without removing it)
+            var previousState = history.Peek();
+            document.RestoreFromMemento(previousState);
             return true;
         }
 
